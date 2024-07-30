@@ -497,7 +497,7 @@ int main(int argc, char *argv[])
   long M, N, nnz = 0, blkbeg, blkend, I, break_point_index = 0;
   double dm, flux, width, tburst, offset, blktime, lvl = 0.030765, signal;
   int blknt = BLKSIZE / 4096;
-  double sigma = cfg.tsys / cfg.sysgain / sqrt(2 * cfg.dt * (cfg.df * 1e6)); /* Ideal RMS calculation. */
+  double sigma = cfg.tsys / (cfg.sysgain * sqrt(2 * cfg.dt * (cfg.df * 1e6))); /* Ideal RMS calculation. */
 
   while (keep)
   {
@@ -586,7 +586,7 @@ int main(int argc, char *argv[])
             }
             I = I % (long)BLKSIZE;
             in = raw[I];
-            signal = fluxes[i] / sigma;
+            signal = fluxes[i] / (sigma);
             out = cal_bit_shift_prob(in, lvl, signal);
             raw[I] = out;
           }
@@ -608,7 +608,7 @@ int main(int argc, char *argv[])
             }
             I = I % (long)BLKSIZE;
             in = raw[I];
-            signal = fluxes[i] / sigma;
+            signal = fluxes[i] / (sigma);
             out = cal_bit_shift_prob(in, lvl, signal);
             raw[I] = out;
           }
